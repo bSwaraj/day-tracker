@@ -1,0 +1,87 @@
+<div class="container" ng-if="vm.notSupported && vm.notSupported.length">
+    <div class="alert alert-danger">
+        {{vm.notSupported}}
+    </div>
+</div>
+
+<div class="container my-3">
+    <h3 class="mb-3">Day Tracker</h3>
+    <form ng-submit="vm.addTask()">
+
+
+        <div class="input-group">
+            <input type="text" class="form-control" ng-model="vm.taskName" placeholder="Enter a Task">
+            <button class="btn btn-success" type="button" ng-click="vm.addTask()">Add Task</button>
+        </div>
+    </form>
+
+</div>
+<div class="container">
+
+    <table class="table table-responsive table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Task Name</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="task in vm.getTasks() track by $index">
+                <td>{{task.id}}</td>
+                <td>{{task.name}}</td>
+                <td>{{task.start | date : vm.timeFormat}}</td>
+                <td>
+                    <span ng-if="task.status == 1">
+                        <span style="cursor: pointer;" class="text-info" ng-click="vm.completeTask(task)">
+                            Complete
+                        </span>
+                    </span>
+                    <span ng-if="task.status == 2">{{task.end | date : vm.timeFormat}}</span>
+                </td>
+                <td>
+                    <span style="cursor: pointer;" class="text-danger" ng-click="vm.deleteTask(task)">
+                        <span class="fas fa-trash"></span>
+                    </span>
+                </td>
+            </tr>
+            <tr ng-if="!vm.hasTasks()">
+                <td colspan="5" class="text-center">No Tasks available.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- <div class="text-uppercase fw-bold d-none d-md-block">
+        <div class="row">
+            <div class="col-md-6">
+                Task Name
+            </div>
+            <div class="col-md-3">
+                Start Time
+            </div>
+            <div class="col-md-3">
+                End Time
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-repeat="task in vm.getTasks() track by $index">
+        <div class="col-12 col-md-6">
+            {{task.name}}
+        </div>
+        <div class="col-6 col-md-3">
+            {{task.start | date : vm.timeFormat}}
+        </div>
+        <div class="col-6 col-md-3">
+            {{task.end | date : vm.timeFormat}}
+        </div>
+    </div>
+    <div class="row" ng-if="!vm.getTasks().length">
+        <div class="col text-center">
+            No Tasks available.
+        </div>
+    </div> -->
+    <p class="mt-4">Storage Usage: {{vm.storage}} of 5120 KB <button ng-click="vm.isSignedIn ? vm.signOut() : vm.signIn()">{{
+            vm.isSignedIn ? 'Logout' : 'Login'}}</button></p>
+</div>
